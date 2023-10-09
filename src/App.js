@@ -52,6 +52,8 @@ const InputsRow = styled.div`
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    column-gap: 2rem;
   }
 `
 
