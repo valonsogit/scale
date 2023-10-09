@@ -49,12 +49,17 @@ const InputsRow = styled.div`
   margin-bottom: var(--space-xl);
 
   @media (max-width: 720px) {
-    flex-direction: column;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
   }
 `
 
 const InputsRowItem = styled.div`
   margin-right: 40px;
+  @media (max-width: 720px) {
+    margin-right: 0;
+  }
   flex-shrink: 0;
   width: ${props => props.wide ? 192 : 96}px;
 `
@@ -65,6 +70,9 @@ const InputsRowItemSeparataor = styled.div`
   width: 1px;
   flex-shrink: 0;
   background-color: var(--border);
+  @media (max-width: 720px) {
+    display: none;
+  }
 `
 
 const BackgroundSelectorSection = styled.div`
@@ -91,7 +99,24 @@ const TriggersSection = styled.div`
     border-top: 1px solid var(--border);
   }
 `
+function debounce(func, delay) {
+  let timeoutId;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+}
 
+const updateHashF = (c) => {
+  console.log('updateHashF')
+  window.location.hash = encodeURI(Object.values(c).join('/'));
+};
+
+const updateHash = debounce(updateHashF, 750);
 const ScaleApp = () => {  
   const getHash = () => {
     const hash = decodeURI(window.location.hash)
@@ -147,12 +172,9 @@ const ScaleApp = () => {
   }
 
   if(getHash()) {
-    window.location.hash = encodeURI(Object.values(getHash()).join('/'))
+    updateHash(currentState);
   }
 
-  const updateHash = () => {
-    window.location.hash = encodeURI(Object.values(currentState).join('/'))
-  }
   
   const updateThemeColor = () => {
     document.getElementById('themeMetaTag').setAttribute('content', numberToHex(mainColor))
@@ -237,7 +259,7 @@ const ScaleApp = () => {
   setBgColorVar()
 
   useEffect(() => {
-    updateHash()
+    updateHash(currentState)
     updateThemeColor()
   });
 

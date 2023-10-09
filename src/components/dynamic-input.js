@@ -64,11 +64,17 @@ const DynamicInputLabel = styled.div`
   line-height: 16px;
   margin-bottom: 16px;
   min-height: 32px;
+  @media (max-width: 720px) {
+    text-align: center;
+  }
 `
 
 const DynamicInputRoot = styled.div`
   display: flex;
   margin-bottom: 16px;
+  @media (max-width: 720px) {
+    justify-content: center;
+  }
 `
 
 const DynamicInput = ({ value, onChange, color, prefix, sufix, withSlider, withRgbSlider, label, min, max, ...rest }) => {
